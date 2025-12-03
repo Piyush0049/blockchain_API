@@ -24,7 +24,6 @@ contract ClaimRegistry {
             c.submitter = msg.sender;
             emit ClaimUpdated(_contentHash, _ipfsCid, msg.sender);
         } else {
-            // New
             claims[_contentHash] = Claim({
                 contentHash: _contentHash,
                 ipfsCid: _ipfsCid,
