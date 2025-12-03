@@ -13,7 +13,6 @@ app.get("/", (req, res) => {
   res.json({ status: "Blockchain service running", network: "Sepolia" });
 });
 
-// Blockchain API Routes
 app.use("/blockchain", blockchainRoutes);
 
 // Start server
