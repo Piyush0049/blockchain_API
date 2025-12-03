@@ -42,7 +42,6 @@ class BlockchainClient {
     return await this.contract.getClaim(hash32);
   }
 
-  // Check existence
   async claimExists(hashHex) {
     const hash32 = this.toBytes32(hashHex);
     return await this.contract.claimExists(hash32);
