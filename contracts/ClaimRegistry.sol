@@ -19,7 +19,6 @@ contract ClaimRegistry {
         Claim storage c = claims[_contentHash];
 
         if (c.exists) {
-            // Update
             c.ipfsCid = _ipfsCid;
             c.timestamp = block.timestamp;
             c.submitter = msg.sender;
