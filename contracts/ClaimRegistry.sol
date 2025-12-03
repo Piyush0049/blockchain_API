@@ -7,7 +7,7 @@ contract ClaimRegistry {
         string ipfsCid;  
         uint256 timestamp;
         address submitter;
-        bool exists;          // marker
+        bool exists;   
     }
 
     mapping(bytes32 => Claim) private claims;
