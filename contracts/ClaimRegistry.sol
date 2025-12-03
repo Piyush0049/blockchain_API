@@ -6,7 +6,7 @@ contract ClaimRegistry {
         bytes32 contentHash; 
         string ipfsCid;  
         uint256 timestamp;
-        address submitter;    // who added/updated
+        address submitter;
         bool exists;          // marker
     }
 
