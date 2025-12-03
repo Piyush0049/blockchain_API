@@ -6,7 +6,6 @@ const RPC_URL = process.env.RPC_URL;
 const PRIVATE_KEY = process.env.PRIVATE_KEY;
 const CONTRACT_ADDRESS = process.env.CONTRACT_ADDRESS;
 
-// Correct ABI from your contract
 const ABI = [
   "function addOrUpdateClaim(bytes32 _contentHash, string calldata _ipfsCid) external",
   "function getClaim(bytes32 _contentHash) external view returns (tuple(bytes32 contentHash, string ipfsCid, uint256 timestamp, address submitter, bool exists))",
