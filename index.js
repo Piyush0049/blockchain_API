@@ -15,7 +15,6 @@ app.get("/", (req, res) => {
 
 app.use("/blockchain", blockchainRoutes);
 
-// Start server
 const PORT = process.env.PORT || 3000;
 
 app.listen(PORT, () => {
