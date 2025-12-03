@@ -25,7 +25,6 @@ class BlockchainClient {
     return "0x" + hashHex;
   }
 
-  // Add or update claim
   async addOrUpdateClaim(hashHex, ipfsCid) {
     const hash32 = this.toBytes32(hashHex);
 
