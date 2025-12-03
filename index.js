@@ -3,7 +3,6 @@ import cors from "cors";
 import dotenv from "dotenv";
 import blockchainRoutes from "./src/routes/blockchainRoutes.js";
 
-// Load environment variables
 dotenv.config();
 
 const app = express();
