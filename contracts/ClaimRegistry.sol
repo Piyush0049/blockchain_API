@@ -5,7 +5,7 @@ contract ClaimRegistry {
     struct Claim {
         bytes32 contentHash; 
         string ipfsCid;  
-        uint256 timestamp;    // block timestamp when stored
+        uint256 timestamp;
         address submitter;    // who added/updated
         bool exists;          // marker
     }
