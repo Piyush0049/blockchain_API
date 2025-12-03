@@ -37,7 +37,6 @@ class BlockchainClient {
     return tx.hash;
   }
 
-  // Read claim
   async getClaim(hashHex) {
     const hash32 = this.toBytes32(hashHex);
     return await this.contract.getClaim(hash32);
