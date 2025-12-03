@@ -21,7 +21,6 @@ class BlockchainClient {
     this.contract = new ethers.Contract(CONTRACT_ADDRESS, ABI, this.wallet);
   }
 
-  // Convert SHA-256 (hex string) into bytes32
   toBytes32(hashHex) {
     return "0x" + hashHex;
   }
