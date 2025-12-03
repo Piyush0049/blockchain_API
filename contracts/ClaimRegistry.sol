@@ -3,7 +3,7 @@ pragma solidity ^0.8.20;
 
 contract ClaimRegistry {
     struct Claim {
-        bytes32 contentHash;  // SHA-256 hash (truncated/converted to bytes32)
+        bytes32 contentHash; 
         string ipfsCid;       // optional: IPFS hash / metadata
         uint256 timestamp;    // block timestamp when stored
         address submitter;    // who added/updated

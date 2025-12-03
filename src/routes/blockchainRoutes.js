@@ -4,14 +4,15 @@ import crypto from "crypto";
 
 const router = express.Router();
 
-// Hash a claim and store on blockchain
+// Add or update claim
 router.post("/store", async (req, res) => {
   try {
-    const { content, metadata } = req.body;
+    const { content, ipfsCid } = req.body;
 
+    // SHA-256 → hex string
     const hash = crypto.createHash("sha256").update(content).digest("hex");
 
-    const txHash = await blockchainClient.storeClaim(hash, metadata);
+    const txHash = await blockchainClient.addOrUpdateClaim(hash, ipfsCid || "");
 
     res.json({
       success: true,
@@ -20,23 +21,20 @@ router.post("/store", async (req, res) => {
       contract: process.env.CONTRACT_ADDRESS,
     });
   } catch (err) {
-    console.error(err);
-    res.status(500).json({ error: "Blockchain storage failed" });
+    console.error("❌ Error storing claim:", err);
+    res.status(500).json({ success: false, error: "Blockchain error" });
   }
 });
 
-// Retrieve claim
-router.get("/get/:hash", async (req, res) => {
+// Get claim
+router.get("/claim/:hash", async (req, res) => {
   try {
-    const data = await blockchainClient.getClaim(req.params.hash);
+    const claim = await blockchainClient.getClaim(req.params.hash);
 
-    res.json({
-      hash: req.params.hash,
-      metadata: data,
-    });
+    res.json({ claim });
   } catch (err) {
-    console.error(err);
-    res.status(500).json({ error: "Unable to retrieve claim" });
+    console.error("❌ Error reading claim:", err);
+    res.status(500).json({ success: false, error: "Unable to fetch claim" });
   }
 });
 

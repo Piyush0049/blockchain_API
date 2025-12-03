@@ -2,16 +2,17 @@ import { ethers } from "ethers";
 import dotenv from "dotenv";
 dotenv.config();
 
-// Load environment variables
 const RPC_URL = process.env.RPC_URL;
 const PRIVATE_KEY = process.env.PRIVATE_KEY;
 const CONTRACT_ADDRESS = process.env.CONTRACT_ADDRESS;
 
-// ABI of your deployed contract
+// Correct ABI from your contract
 const ABI = [
-  "function storeClaim(string claimHash, string metadata) public",
-  "function getClaim(address user, string claimHash) public view returns (string metadata)",
-  "event ClaimStored(address indexed user, string claimHash, string metadata)"
+  "function addOrUpdateClaim(bytes32 _contentHash, string calldata _ipfsCid) external",
+  "function getClaim(bytes32 _contentHash) external view returns (tuple(bytes32 contentHash, string ipfsCid, uint256 timestamp, address submitter, bool exists))",
+  "function claimExists(bytes32 _contentHash) external view returns (bool)",
+  "event ClaimAdded(bytes32 indexed contentHash, string ipfsCid, address indexed submitter)",
+  "event ClaimUpdated(bytes32 indexed contentHash, string ipfsCid, address indexed submitter)"
 ];
 
 class BlockchainClient {
@@ -21,19 +22,34 @@ class BlockchainClient {
     this.contract = new ethers.Contract(CONTRACT_ADDRESS, ABI, this.wallet);
   }
 
-  // Store hashed content on blockchain
-  async storeClaim(claimHash, metadata) {
-    const tx = await this.contract.storeClaim(claimHash, metadata);
-    console.log("⛓️ Blockchain TX sent:", tx.hash);
+  // Convert SHA-256 (hex string) into bytes32
+  toBytes32(hashHex) {
+    return "0x" + hashHex;
+  }
+
+  // Add or update claim
+  async addOrUpdateClaim(hashHex, ipfsCid) {
+    const hash32 = this.toBytes32(hashHex);
+
+    const tx = await this.contract.addOrUpdateClaim(hash32, ipfsCid);
+    console.log("⛓️  TX sent:", tx.hash);
+
     await tx.wait();
-    console.log("✅ Claim stored on-chain");
+    console.log("✅ On-chain claim stored/updated");
+
     return tx.hash;
   }
 
-  // Retrieve metadata from blockchain
-  async getClaim(claimHash) {
-    const result = await this.contract.getClaim(this.wallet.address, claimHash);
-    return result;
+  // Read claim
+  async getClaim(hashHex) {
+    const hash32 = this.toBytes32(hashHex);
+    return await this.contract.getClaim(hash32);
+  }
+
+  // Check existence
+  async claimExists(hashHex) {
+    const hash32 = this.toBytes32(hashHex);
+    return await this.contract.claimExists(hash32);
   }
 }
 
