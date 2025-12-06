@@ -23,7 +23,6 @@ router.post("/store", async (req, res) => {
   }
 });
 
-// Get claim
 router.get("/claim/:hash", async (req, res) => {
   try {
     const claim = await blockchainClient.getClaim(req.params.hash);
