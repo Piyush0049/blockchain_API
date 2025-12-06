@@ -7,8 +7,6 @@ const router = express.Router();
 router.post("/store", async (req, res) => {
   try {
     const { content, ipfsCid } = req.body;
-
-    // SHA-256 → hex string
     const hash = crypto.createHash("sha256").update(content).digest("hex");
 
     const txHash = await blockchainClient.addOrUpdateClaim(hash, ipfsCid || "");
