@@ -4,7 +4,6 @@ import crypto from "crypto";
 
 const router = express.Router();
 
-// Add or update claim
 router.post("/store", async (req, res) => {
   try {
     const { content, ipfsCid } = req.body;
